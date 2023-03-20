@@ -12,10 +12,10 @@ module.exports = {
   			.setRequired(true)
         .addChoice("Survival", "Survival")
         .addChoice("Skyblock", "Skyblock")
-        .addChoice("Minigames", "Minigames")
-        .addChoice("Events", "Events")
         .addChoice("RPG", "RPG")
-        .addChoice("Others", "Others"))
+        .addChoice("Kit-PvP", "Kit-PvP")
+        .addChoice("Duels", "Duels")
+        .addChoice("Events", "Events"))
     .addStringOption(option =>
       option.setName("suggestion")
         .setDescription("Describe the suggestion")
@@ -46,18 +46,18 @@ module.exports = {
       case "Skyblock":
         channelId = client.config.skyblocksuggestion;
         break;
-      case "Minigames":
-        channelId = client.config.minigamessuggestion;
+      case "RPG":
+        channelId = client.config.rpgsuggestion;
+        break;
+      case "Kit-PvP":
+        channelId = client.config.kitpvpsuggestion;
+        break;
+      case "Duels":
+        channelId = client.config.duelssuggestion;
         break;
       case "Events":
         channelId = client.config.eventssuggestion;
         break;
-      case "RPG":
-        channelId = client.config.rpgsuggestion;
-        break;
-      case "Others":
-      default:
-        channelId = client.config.otherssuggestion;
     }
 
     const suggestion = interaction.options.getString("suggestion");
