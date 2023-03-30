@@ -10,7 +10,7 @@ module.exports = {
         .setDescription("IGN")
         .setRequired(true)),
   async execute(client, interaction) {
-    const ign = interaction.options.getString("ign");
+    var ign = interaction.options.getString("ign");
 
     if (!fs.existsSync("./alts.json")) {
       fs.openSync('./alts.json', 'w');
@@ -28,13 +28,15 @@ module.exports = {
 
     let list = "";
     for (element in alts) {
-      if (element == ign) {
+      if (element.toLowerCase() == ign.toLowerCase()) {
         // found ign as alt
+        ign = element;
         return await interaction.reply({
           content: `The player \`${ign}\` is an allowed alternate account of \`${alts[element]}\`.`
         });
-      } else if (alts[element] == ign) {
+      } else if (alts[element].toLowerCase() == ign.toLowerCase()) {
         // found ign as main
+          ign = alts[element];
         if (list == "") {
           list = list.concat(`\`${element}\``);
         } else {

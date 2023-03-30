@@ -16,7 +16,6 @@
     "discord-api-types": "^0.30.0",
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.3",
-    "express": "^4.17.3",
     "humanize-duration": "^3.27.1"
   }
 }
