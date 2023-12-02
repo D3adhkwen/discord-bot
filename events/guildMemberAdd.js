@@ -1,5 +1,5 @@
-const utils = require("../utils.js");
+const utils = require('../utils.js');
 
 module.exports = (client, member) => {
-  utils.updateServerStats(client);
+	utils.updateServerStats(client);
 };
