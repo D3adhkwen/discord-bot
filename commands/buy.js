@@ -1,5 +1,4 @@
-const { MessageEmbed } = require('discord.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { EmbedBuilder, SlashCommandBuilder, Colors } = require('discord.js');
 const utils = require('../utils.js');
 
 module.exports = {
@@ -63,8 +62,8 @@ module.exports = {
 		const price = interaction.options.getString('price');
 
 		const channel = client.channels.cache.get(client.config.marketplace);
-		const embed = new MessageEmbed()
-			.setColor('RED')
+		const embed = new EmbedBuilder()
+			.setColor(Colors.Red)
 			.setTitle('Buying')
 			.addFields(
 				{ name: 'In-game Name', value: ign },

@@ -1,12 +1,11 @@
-const { MessageEmbed } = require('discord.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ip')
 		.setDescription('Displays the server IP'),
 	async execute(client, interaction) {
-		const embed = new MessageEmbed()
+		const embed = new EmbedBuilder()
 			.setTitle('Minecraft Server IP')
 			.setDescription('play.kchscraft.net');
 

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -21,6 +21,10 @@ module.exports = {
 			reloadButton(client, moduleName);
 		} else if (client.messageCommands.has(moduleName)) {
 			reloadMessageCommand(client, moduleName);
+		} else if (client.stringSelects.has(moduleName)) {
+			reloadStringSelects(client, moduleName);
+		} else if (client.modals.has(moduleName)) {
+			reloadModals(client, moduleName);
 		} else {
 			return await interaction.reply({
 				content: 'Module does not exist.',
@@ -56,10 +60,22 @@ function reloadButton(client, buttonName) {
 }
 
 function reloadMessageCommand(client, messageCommandName) {
-	delete require.cache[
-		require.resolve(`../messageCommands/${messageCommandName}.js`)
-	];
+	delete require.cache[require.resolve(`../messageCommands/${messageCommandName}.js`)];
 	client.messageCommands.delete(messageCommandName);
 	const props = require(`../messageCommands/${messageCommandName}.js`);
 	client.messageCommands.set(messageCommandName, props);
+}
+
+function reloadStringSelects(client, stringSelectName) {
+	delete require.cache[require.resolve(`../stringSelects/${stringSelectName}.js`)];
+	client.stringSelects.delete(stringSelectName);
+	const props = require(`../stringSelects/${stringSelectName}.js`);
+	client.stringSelects.set(stringSelectName, props);
+}
+
+function reloadModals(client, modalName) {
+	delete require.cache[require.resolve(`../modals/${modalName}.js`)];
+	client.modals.delete(modalName);
+	const props = require(`../modals/${modalName}.js`);
+	client.modals.set(modalName, props);
 }

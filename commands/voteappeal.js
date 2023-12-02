@@ -1,5 +1,4 @@
-const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { EmbedBuilder, SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, Colors } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -28,7 +27,7 @@ module.exports = {
 		endDate.setDate(endDate.getDate() + days);
 		const endDateEpoch = (endDate.getTime() / 1000).toFixed(0);
 
-		const embed = new MessageEmbed()
+		const embed = new EmbedBuilder()
 			.setTitle('Vote Appeal')
 			.setDescription(`Hello ${user}, the staff team has decided to provide you with a chance to get unbanned through a vote appeal.\n
       You are required to vote ${votes} times within ${days} days.\n
@@ -36,16 +35,16 @@ module.exports = {
       If you reach the required votes before the end date, you can open a ticket again for early unban.\n
       All vote links are available at <#731154097599676446>`);
 
-		const row = new MessageActionRow()
+		const row = new ActionRowBuilder()
 			.addComponents(
-				new MessageButton()
+				new ButtonBuilder()
 					.setCustomId('accept')
 					.setLabel('Accept')
-					.setStyle('SUCCESS'),
-				new MessageButton()
+					.setStyle(ButtonStyle.Success),
+				new ButtonBuilder()
 					.setCustomId('deny')
 					.setLabel('Reject')
-					.setStyle('DANGER'),
+					.setStyle(ButtonStyle.Danger),
 			);
 
 		const response = await interaction.channel.send({
@@ -63,17 +62,17 @@ module.exports = {
 		collector.on('collect', async (i) => {
 			// anti
 			if (i.user.id != user.id) {
-				const erroeEmbed = new MessageEmbed()
-					.setColor('RED')
+				const errorEmbed = new EmbedBuilder()
+					.setColor(Colors.Red)
 					.setTitle('This is not your appeal form');
-				i.channel.send({ embeds: [erroeEmbed], ephemeral: true });
+				i.channel.send({ embeds: [errorEmbed], ephemeral: true });
 				return;
 			}
 			switch (i.customId) {
 			case 'accept': {
 				response.delete();
-				const acceptEmbed = new MessageEmbed()
-					.setColor('GREEN')
+				const acceptEmbed = new EmbedBuilder()
+					.setColor(Colors.Green)
 					.setTitle('Vote Appeal Accepted')
 					.setDescription(
 						'Great, remember to vote ' +
@@ -87,13 +86,13 @@ module.exports = {
 			}
 			case 'deny': {
 				response.delete();
-				const reembed = new MessageEmbed()
-					.setColor('RED')
+				const rejectEmbed = new EmbedBuilder()
+					.setColor(Colors.Red)
 					.setTitle('Vote Appeal Rejected')
 					.setDescription(
 						'This is the only way to get you unban, seems you rejected the vote appeal. So if nothing else, please close the ticket.',
 					);
-				i.channel.send({ embeds: [reembed] });
+				i.channel.send({ embeds: [rejectEmbed] });
 				break;
 			}
 			}

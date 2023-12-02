@@ -1,4 +1,4 @@
-const { Client, Intents, Collection } = require('discord.js');
+const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const fs = require('fs');
 const config = require('./config.js');
 require('dotenv')
@@ -6,17 +6,19 @@ require('dotenv')
 
 const client = new Client({
 	intents: [
-		Intents.FLAGS.GUILDS,
-		Intents.FLAGS.GUILD_MESSAGES,
-		Intents.FLAGS.GUILD_MEMBERS,
-		Intents.FLAGS.GUILD_PRESENCES,
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.GuildMembers,
+		GatewayIntentBits.GuildPresences,
 	],
 });
 
 client.config = config;
-client.commands = new Collection();
 client.buttons = new Collection();
+client.commands = new Collection();
 client.messageCommands = new Collection();
+client.stringSelects = new Collection();
+client.modals = new Collection();
 client.suggestCooldown = new Collection();
 client.marketplaceCooldown = new Collection();
 client.voteAppealCollection = new Collection();
@@ -25,63 +27,59 @@ if (config.debug) {
 	client.on('debug', (e) => console.info(e));
 }
 
-// Load all events
-if (!fs.existsSync('./events')) {
-	fs.mkdirSync('./events');
-}
-const events = fs
-	.readdirSync('./events')
-	.filter((file) => file.endsWith('.js'));
-for (const file of events) {
-	const eventName = file.split('.')[0];
-	const event = require(`./events/${file}`);
-	client.on(eventName, event.bind(null, client));
-	console.log(`Loaded event ${eventName}`);
-}
+// Register events
+registerEvent();
 
-// Load all buttons
-if (!fs.existsSync('./buttons')) {
-	fs.mkdirSync('./buttons');
-}
-const buttons = fs
-	.readdirSync('./buttons')
-	.filter((file) => file.endsWith('.js'));
-for (const file of buttons) {
-	const buttonName = file.split('.')[0];
-	const button = require(`./buttons/${file}`);
-
-	client.buttons.set(buttonName, button);
-	console.log(`Loaded button ${buttonName}`);
-}
-
-// Load all message commands
-if (!fs.existsSync('./messageCommands')) {
-	fs.mkdirSync('./messageCommands');
-}
-const messageCommands = fs
-	.readdirSync('./messageCommands')
-	.filter((file) => file.endsWith('.js'));
-for (const file of messageCommands) {
-	const messageCommandName = file.split('.')[0];
-	const messageCommand = require(`./messageCommands/${file}`);
-
-	client.messageCommands.set(messageCommandName, messageCommand);
-	console.log(`Loaded messageCommand ${messageCommandName}`);
-}
-
-// Load all slash commands
-if (!fs.existsSync('./commands')) {
-	fs.mkdirSync('./commands');
-}
-const commands = fs
-	.readdirSync('./commands')
-	.filter((file) => file.endsWith('.js'));
-for (const file of commands) {
-	const commandName = file.split('.')[0];
-	const command = require(`./commands/${file}`);
-
-	client.commands.set(commandName, command);
-	console.log(`Loaded command ${commandName}`);
-}
+// Register interactions
+registerInteraction('buttons', client.buttons);
+registerInteraction('commands', client.commands);
+registerInteraction('messageCommands', client.messageCommands);
+registerInteraction('stringSelects', client.stringSelects);
+registerInteraction('modals', client.modals);
 
 client.login(process.env.DISCORD_TOKEN);
+
+function registerEvent() {
+	const folderName = 'events';
+	createDirectory(folderName);
+	const files = readFiles(folderName);
+	// Save interaction into client
+	for (const file of files) {
+		const eventName = file.split('.')[0];
+		const event = require(`./${folderName}/${file}`);
+
+		client.on(eventName, event.bind(null, client));
+		console.log(`Binded event ${eventName}`);
+	}
+}
+
+function registerInteraction(folderName, collection) {
+	createDirectory(folderName);
+	const files = readFiles(folderName);
+	// Save interaction into client
+	for (const file of files) {
+		const interactionName = file.split('.')[0];
+		const interaction = require(`./${folderName}/${file}`);
+
+		collection.set(interactionName, interaction);
+		console.log(`Loaded ${folderName} ${interactionName}`);
+	}
+}
+
+/**
+ * Create directory if it doesn't exist
+ */
+function createDirectory(directory) {
+	if (!fs.existsSync(`./${directory}`)) {
+		fs.mkdirSync(`./${directory}`);
+	}
+}
+
+/**
+ * Find all the files in directory
+ */
+function readFiles(directory) {
+	return fs
+		.readdirSync(`./${directory}`)
+		.filter((file) => file.endsWith('.js'));
+}
