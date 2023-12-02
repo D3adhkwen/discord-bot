@@ -12,7 +12,9 @@ module.exports = {
 
 		const suggestion = new TextInputBuilder()
 			.setCustomId('suggestion')
+			.setRequired()
 			.setLabel('What\'s your suggestion?')
+			.setPlaceholder('Please explain in detail or we won\'t consider it!')
 			.setStyle(TextInputStyle.Paragraph);
 
 		const row = new ActionRowBuilder()
