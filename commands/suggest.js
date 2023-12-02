@@ -7,19 +7,19 @@ module.exports = {
 		.setName('suggest')
 		.setDescription('Provide a suggestion')
 		.addStringOption((option) =>
-			option
-				.setName('gamemode')
+			option.setName('gamemode')
 				.setDescription('Gamemode')
 				.setRequired(true)
-				.addChoice('Survival', 'Survival')
-				.addChoice('Skyblock', 'Skyblock')
-				.addChoice('RPG', 'RPG')
-				.addChoice('Duels', 'Duels')
-				.addChoice('Events', 'Events'),
+				.addChoices(
+					{ name: 'Survival', value: 'Survival' },
+					{ name: 'Skyblock', value: 'Skyblock' },
+					{ name: 'RPG', value: 'RPG' },
+					{ name: 'Duels', value: 'Duels' },
+					{ name: 'Events', value: 'Events' },
+				),
 		)
 		.addStringOption((option) =>
-			option
-				.setName('suggestion')
+			option.setName('suggestion')
 				.setDescription('Describe the suggestion')
 				.setRequired(true),
 		),
@@ -74,17 +74,18 @@ module.exports = {
 			})
 			.setTimestamp();
 
-		channel.send({ embeds: [embed] }).then((message) => {
-			const stonks = message.guild.emojis.cache.find(
-				(emoji) => emoji.name === 'stonks',
-			);
-			const stinks = message.guild.emojis.cache.find(
-				(emoji) => emoji.name === 'stinks',
-			);
-			message.react(stonks);
-			message.react('🤦');
-			message.react(stinks);
-		});
+		channel.send({ embeds: [embed] })
+			.then((message) => {
+				const stonks = message.guild.emojis.cache.find(
+					(emoji) => emoji.name === 'stonks',
+				);
+				const stinks = message.guild.emojis.cache.find(
+					(emoji) => emoji.name === 'stinks',
+				);
+				message.react(stonks);
+				message.react('🤦');
+				message.react(stinks);
+			});
 
 		await interaction.reply({
 			content: `Your suggestion has been published in <#${channelId}>.`,

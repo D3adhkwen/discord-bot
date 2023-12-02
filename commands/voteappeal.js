@@ -6,19 +6,19 @@ module.exports = {
 		.setName('voteappeal')
 		.setDescription('Generates vote appeal message')
 		.addUserOption((option) =>
-			option
-				.setName('user')
+			option.setName('user')
 				.setDescription('The user to be mentioned')
 				.setRequired(true),
 		)
 		.addIntegerOption((option) =>
-			option
-				.setName('votes')
+			option.setName('votes')
 				.setDescription('Number of votes')
 				.setRequired(true),
 		)
 		.addIntegerOption((option) =>
-			option.setName('days').setDescription('Number of days').setRequired(true),
+			option.setName('days')
+				.setDescription('Number of days')
+				.setRequired(true),
 		),
 	async execute(client, interaction) {
 		const user = interaction.options.getUser('user');
@@ -28,23 +28,25 @@ module.exports = {
 		endDate.setDate(endDate.getDate() + days);
 		const endDateEpoch = (endDate.getTime() / 1000).toFixed(0);
 
-		const embed = new MessageEmbed().setTitle('Vote Appeal')
+		const embed = new MessageEmbed()
+			.setTitle('Vote Appeal')
 			.setDescription(`Hello ${user}, the staff team has decided to provide you with a chance to get unbanned through a vote appeal.\n
       You are required to vote ${votes} times within ${days} days.\n
       The vote appeal will end on <t:${endDateEpoch}:D>.\n
       If you reach the required votes before the end date, you can open a ticket again for early unban.\n
       All vote links are available at <#731154097599676446>`);
 
-		const row = new MessageActionRow().addComponents(
-			new MessageButton()
-				.setCustomId('accept')
-				.setLabel('Accept')
-				.setStyle('SUCCESS'),
-			new MessageButton()
-				.setCustomId('deny')
-				.setLabel('Reject')
-				.setStyle('DANGER'),
-		);
+		const row = new MessageActionRow()
+			.addComponents(
+				new MessageButton()
+					.setCustomId('accept')
+					.setLabel('Accept')
+					.setStyle('SUCCESS'),
+				new MessageButton()
+					.setCustomId('deny')
+					.setLabel('Reject')
+					.setStyle('DANGER'),
+			);
 
 		const response = await interaction.channel.send({
 			embeds: [embed],

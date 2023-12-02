@@ -6,7 +6,9 @@ module.exports = {
 		.setName('deletealt')
 		.setDescription('Delete player as an allowed alternate account')
 		.addStringOption((option) =>
-			option.setName('ign').setDescription('IGN').setRequired(true),
+			option.setName('ign')
+				.setDescription('IGN')
+				.setRequired(true),
 		),
 	async execute(client, interaction) {
 		const ign = interaction.options.getString('ign');
@@ -36,7 +38,9 @@ module.exports = {
 		}
 
 		fs.writeFile('./alts.json', JSON.stringify(alts), (err) => {
-			if (err) console.error(err);
+			if (err) {
+				console.error(err);
+			}
 		});
 
 		await interaction.reply({

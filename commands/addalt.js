@@ -39,7 +39,9 @@ module.exports = {
 		}
 
 		fs.writeFile('./alts.json', JSON.stringify(alts), (err) => {
-			if (err) console.error(err);
+			if (err) {
+				console.error(err);
+			}
 		});
 
 		await interaction.reply({

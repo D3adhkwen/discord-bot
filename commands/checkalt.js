@@ -6,7 +6,9 @@ module.exports = {
 		.setName('checkalt')
 		.setDescription('Check whether player is an allowed alternate account')
 		.addStringOption((option) =>
-			option.setName('ign').setDescription('IGN').setRequired(true),
+			option.setName('ign')
+				.setDescription('IGN')
+				.setRequired(true),
 		),
 	async execute(client, interaction) {
 		let ign = interaction.options.getString('ign');

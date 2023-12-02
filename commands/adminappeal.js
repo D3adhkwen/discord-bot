@@ -9,8 +9,10 @@ module.exports = {
 				.setName('action')
 				.setDescription('Action')
 				.setRequired(true)
-				.addChoice('clear', 'clear')
-				.addChoice('get', 'get'),
+				.addChoices(
+					{ name: 'clear', value: 'clear' },
+					{ name: 'get', value: 'get' },
+				),
 		),
 	async execute(client, interaction) {
 		const action = interaction.options.getString('action');

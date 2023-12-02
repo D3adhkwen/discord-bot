@@ -1,7 +1,8 @@
 const { Client, Intents, Collection } = require('discord.js');
 const fs = require('fs');
 const config = require('./config.js');
-require('dotenv').config();
+require('dotenv')
+	.config();
 
 const client = new Client({
 	intents: [
@@ -20,10 +21,14 @@ client.suggestCooldown = new Collection();
 client.marketplaceCooldown = new Collection();
 client.voteAppealCollection = new Collection();
 // Debug
-if (config.debug) client.on('debug', (e) => console.info(e));
+if (config.debug) {
+	client.on('debug', (e) => console.info(e));
+}
 
 // Load all events
-if (!fs.existsSync('./events')) fs.mkdirSync('./events');
+if (!fs.existsSync('./events')) {
+	fs.mkdirSync('./events');
+}
 const events = fs
 	.readdirSync('./events')
 	.filter((file) => file.endsWith('.js'));
@@ -35,7 +40,9 @@ for (const file of events) {
 }
 
 // Load all buttons
-if (!fs.existsSync('./buttons')) fs.mkdirSync('./buttons');
+if (!fs.existsSync('./buttons')) {
+	fs.mkdirSync('./buttons');
+}
 const buttons = fs
 	.readdirSync('./buttons')
 	.filter((file) => file.endsWith('.js'));
@@ -48,7 +55,9 @@ for (const file of buttons) {
 }
 
 // Load all message commands
-if (!fs.existsSync('./messageCommands')) fs.mkdirSync('./messageCommands');
+if (!fs.existsSync('./messageCommands')) {
+	fs.mkdirSync('./messageCommands');
+}
 const messageCommands = fs
 	.readdirSync('./messageCommands')
 	.filter((file) => file.endsWith('.js'));
@@ -61,7 +70,9 @@ for (const file of messageCommands) {
 }
 
 // Load all slash commands
-if (!fs.existsSync('./commands')) fs.mkdirSync('./commands');
+if (!fs.existsSync('./commands')) {
+	fs.mkdirSync('./commands');
+}
 const commands = fs
 	.readdirSync('./commands')
 	.filter((file) => file.endsWith('.js'));

@@ -7,15 +7,19 @@ module.exports = {
 		.setName('buy')
 		.setDescription('Create a buy offer')
 		.addStringOption((option) =>
-			option.setName('ign').setDescription('In-game Name').setRequired(true),
+			option.setName('ign')
+				.setDescription('In-game Name')
+				.setRequired(true),
 		)
 		.addStringOption((option) =>
 			option
 				.setName('gamemode')
 				.setDescription('Gamemode')
 				.setRequired(true)
-				.addChoice('Survival', 'Survival')
-				.addChoice('Skyblock', 'Skyblock'),
+				.addChoices(
+					{ name: 'Survival', value: 'Survival' },
+					{ name: 'Skyblock', value: 'Skyblock' },
+				),
 		)
 		.addStringOption((option) =>
 			option
@@ -24,10 +28,14 @@ module.exports = {
 				.setRequired(true),
 		)
 		.addStringOption((option) =>
-			option.setName('quantity').setDescription('Quantity').setRequired(true),
+			option.setName('quantity')
+				.setDescription('Quantity')
+				.setRequired(true),
 		)
 		.addStringOption((option) =>
-			option.setName('price').setDescription('Price').setRequired(true),
+			option.setName('price')
+				.setDescription('Price')
+				.setRequired(true),
 		),
 	async execute(client, interaction) {
 		const cooldown = client.marketplaceCooldown.get(interaction.user.id);

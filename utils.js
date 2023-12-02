@@ -2,7 +2,8 @@
 // const utils = require("../utils.js");
 
 const humanizeDuration = require('humanize-duration');
-require('dotenv').config();
+require('dotenv')
+	.config();
 
 exports.isStaff = (client, input) => {
 	const allowedRoles = client.config.staffrole;

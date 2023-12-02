@@ -1,6 +1,8 @@
 module.exports = (client, interaction) => {
 	// Ignore all bots
-	if (interaction.user.bot) return;
+	if (interaction.user.bot) {
+		return;
+	}
 
 	let module;
 
@@ -11,7 +13,9 @@ module.exports = (client, interaction) => {
 	}
 
 	// If that module doesn't exist, silently exit and do nothing
-	if (!module) return;
+	if (!module) {
+		return;
+	}
 
 	// Run the command
 	module.execute(client, interaction);
