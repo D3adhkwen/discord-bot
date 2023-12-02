@@ -4,9 +4,8 @@ module.exports = (client, interaction) => {
 
   let module;
 
-  if ( interaction.isButton() )
-    module = client.buttons.get(interaction.customId);
-  else if ( interaction.isCommand() )
+  if (interaction.isButton()) module = client.buttons.get(interaction.customId);
+  else if (interaction.isCommand())
     module = client.commands.get(interaction.commandName);
 
   // If that module doesn't exist, silently exit and do nothing

@@ -1,15 +1,15 @@
 const { Client, Intents, Collection } = require("discord.js");
 const fs = require("fs");
 const config = require("./config.js");
-require('dotenv').config();
+require("dotenv").config();
 
 const client = new Client({
   intents: [
     Intents.FLAGS.GUILDS,
     Intents.FLAGS.GUILD_MESSAGES,
     Intents.FLAGS.GUILD_MEMBERS,
-    Intents.FLAGS.GUILD_PRESENCES
-  ]
+    Intents.FLAGS.GUILD_PRESENCES,
+  ],
 });
 
 client.config = config;
@@ -18,14 +18,15 @@ client.buttons = new Collection();
 client.messageCommands = new Collection();
 client.suggestCooldown = new Collection();
 client.marketplaceCooldown = new Collection();
-
+client.voteAppealCollection = new Collection();
 // Debug
-if (config.debug)
-  client.on("debug", (e) => console.info(e));
+if (config.debug) client.on("debug", (e) => console.info(e));
 
 // Load all events
-if (!fs.existsSync("./events")) fs.mkdirSync("./events")
-const events = fs.readdirSync("./events").filter(file => file.endsWith(".js"));
+if (!fs.existsSync("./events")) fs.mkdirSync("./events");
+const events = fs
+  .readdirSync("./events")
+  .filter((file) => file.endsWith(".js"));
 for (const file of events) {
   const eventName = file.split(".")[0];
   const event = require(`./events/${file}`);
@@ -34,8 +35,10 @@ for (const file of events) {
 }
 
 // Load all buttons
-if (!fs.existsSync("./buttons")) fs.mkdirSync("./buttons")
-const buttons = fs.readdirSync("./buttons").filter(file => file.endsWith(".js"));
+if (!fs.existsSync("./buttons")) fs.mkdirSync("./buttons");
+const buttons = fs
+  .readdirSync("./buttons")
+  .filter((file) => file.endsWith(".js"));
 for (const file of buttons) {
   const buttonName = file.split(".")[0];
   const button = require(`./buttons/${file}`);
@@ -45,8 +48,10 @@ for (const file of buttons) {
 }
 
 // Load all message commands
-if (!fs.existsSync("./messageCommands")) fs.mkdirSync("./messageCommands")
-const messageCommands = fs.readdirSync("./messageCommands").filter(file => file.endsWith(".js"));
+if (!fs.existsSync("./messageCommands")) fs.mkdirSync("./messageCommands");
+const messageCommands = fs
+  .readdirSync("./messageCommands")
+  .filter((file) => file.endsWith(".js"));
 for (const file of messageCommands) {
   const messageCommandName = file.split(".")[0];
   const messageCommand = require(`./messageCommands/${file}`);
@@ -56,8 +61,10 @@ for (const file of messageCommands) {
 }
 
 // Load all slash commands
-if (!fs.existsSync("./commands")) fs.mkdirSync("./commands")
-const commands = fs.readdirSync("./commands").filter(file => file.endsWith(".js"));
+if (!fs.existsSync("./commands")) fs.mkdirSync("./commands");
+const commands = fs
+  .readdirSync("./commands")
+  .filter((file) => file.endsWith(".js"));
 for (const file of commands) {
   const commandName = file.split(".")[0];
   const command = require(`./commands/${file}`);

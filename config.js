@@ -9,11 +9,22 @@ module.exports = {
   botcount: "961597495878750208",
   survivalsuggestion: "860403367763247135",
   skyblocksuggestion: "782958139480866876",
-  kitpvpsuggestion: "776651317153366057",
   eventssuggestion: "831196575744393257",
   rpgsuggestion: "858370267852308500",
   duelssuggestion: "723413348032446547",
-  staffrole: ["[Owner]", "[Co-owner]", "[Admin]","[Server-Lead]","[Technician]","[Organiser]","[Moderator]","[Builder]","[Assistant]","[Retired Staff]","Trainee"],
+  staffrole: [
+    "[Owner]",
+    "[Co-owner]",
+    "[Admin]",
+    "[Server-Lead]",
+    "[Technician]",
+    "[Organiser]",
+    "[Moderator]",
+    "[Builder]",
+    "[Assistant]",
+    "[Retired Staff]",
+    "Trainee",
+  ],
   cooldown: 10, // in seconds
-  botCount: 16
-}
+  botCount: 16,
+};

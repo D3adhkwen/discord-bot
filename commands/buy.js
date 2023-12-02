@@ -4,41 +4,45 @@ const utils = require("../utils.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
-		.setName("buy")
-		.setDescription("Create a buy offer")
-    .addStringOption(option =>
-  		option.setName("ign")
-  			.setDescription("In-game Name")
-  			.setRequired(true))
-    .addStringOption(option =>
-  		option.setName("gamemode")
-  			.setDescription("Gamemode")
-  			.setRequired(true)
+    .setName("buy")
+    .setDescription("Create a buy offer")
+    .addStringOption((option) =>
+      option.setName("ign").setDescription("In-game Name").setRequired(true)
+    )
+    .addStringOption((option) =>
+      option
+        .setName("gamemode")
+        .setDescription("Gamemode")
+        .setRequired(true)
         .addChoice("Survival", "Survival")
-        .addChoice("Skyblock", "Skyblock"))
-    .addStringOption(option =>
-      option.setName("item")
+        .addChoice("Skyblock", "Skyblock")
+    )
+    .addStringOption((option) =>
+      option
+        .setName("item")
         .setDescription("Item to purchase")
-        .setRequired(true))
-    .addStringOption(option =>
-      option.setName("quantity")
-        .setDescription("Quantity")
-        .setRequired(true))
-    .addStringOption(option =>
-      option.setName("price")
-        .setDescription("Price")
-        .setRequired(true)),
+        .setRequired(true)
+    )
+    .addStringOption((option) =>
+      option.setName("quantity").setDescription("Quantity").setRequired(true)
+    )
+    .addStringOption((option) =>
+      option.setName("price").setDescription("Price").setRequired(true)
+    ),
   async execute(client, interaction) {
     const cooldown = client.marketplaceCooldown.get(interaction.user.id);
     if (cooldown) {
       const remaining = utils.formatCooldown(cooldown);
-      
+
       return await interaction.reply({
         content: `You have to wait ${remaining} before you can use this command again.`,
-        ephemeral: true
+        ephemeral: true,
       });
     } else {
-      client.marketplaceCooldown.set(interaction.user.id, Date.now() + (client.config.cooldown * 1000));
+      client.marketplaceCooldown.set(
+        interaction.user.id,
+        Date.now() + client.config.cooldown * 1000
+      );
       setTimeout(() => {
         client.marketplaceCooldown.delete(interaction.user.id);
       }, client.config.cooldown * 1000);
@@ -55,23 +59,23 @@ module.exports = {
       .setColor("RED")
       .setTitle("Buying")
       .addFields(
-    		{ name: "In-game Name", value: ign },
-    		{ name: "Gamemode", value: gamemode },
-    		{ name: "Item", value: item, inline: true },
-    		{ name: "Quantity", value: quantity, inline: true },
+        { name: "In-game Name", value: ign },
+        { name: "Gamemode", value: gamemode },
+        { name: "Item", value: item, inline: true },
+        { name: "Quantity", value: quantity, inline: true },
         { name: "Price", value: price }
-    	)
+      )
       .setAuthor({
         name: interaction.member.displayName,
-        iconURL: interaction.member.displayAvatarURL()
+        iconURL: interaction.member.displayAvatarURL(),
       })
-      .setTimestamp()
+      .setTimestamp();
 
     channel.send({ embeds: [embed] });
-  
+
     await interaction.reply({
-        content: `Your buy offer has been published in <#${client.config.marketplace}>.`,
-        ephemeral: true
+      content: `Your buy offer has been published in <#${client.config.marketplace}>.`,
+      ephemeral: true,
     });
-  }
-}
+  },
+};

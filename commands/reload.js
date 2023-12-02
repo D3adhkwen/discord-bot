@@ -2,35 +2,34 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 
 module.exports = {
   data: new SlashCommandBuilder()
-		.setName("reload")
-		.setDescription("Reload module")
-    .addStringOption(option =>
-  		option.setName("module")
-  			.setDescription("The module to be reloaded")
-  			.setRequired(true)),
+    .setName("reload")
+    .setDescription("Reload module")
+    .addStringOption((option) =>
+      option
+        .setName("module")
+        .setDescription("The module to be reloaded")
+        .setRequired(true)
+    ),
   async execute(client, interaction) {
     const moduleName = interaction.options.getString("module");
-  
-    if (moduleName == "config")
-      reloadConfig(client);
-    else if (client.commands.has(moduleName))
-      reloadCommand(client, moduleName);
-    else if (client.buttons.has(moduleName))
-      reloadButton(client, moduleName);
+
+    if (moduleName == "config") reloadConfig(client);
+    else if (client.commands.has(moduleName)) reloadCommand(client, moduleName);
+    else if (client.buttons.has(moduleName)) reloadButton(client, moduleName);
     else if (client.messageCommands.has(moduleName))
       reloadMessageCommand(client, moduleName);
     else
       return await interaction.reply({
         content: "Module does not exist.",
-        ephemeral: true
+        ephemeral: true,
       });
-  
+
     await interaction.reply({
-        content: `The module ${moduleName} has been reloaded`,
-        ephemeral: true
-      });
-  }
-}
+      content: `The module ${moduleName} has been reloaded`,
+      ephemeral: true,
+    });
+  },
+};
 
 function reloadConfig(client) {
   delete require.cache[require.resolve(`../config.js`)];
@@ -53,7 +52,9 @@ function reloadButton(client, buttonName) {
 }
 
 function reloadMessageCommand(client, messageCommandName) {
-  delete require.cache[require.resolve(`../messageCommands/${messageCommandName}.js`)];
+  delete require.cache[
+    require.resolve(`../messageCommands/${messageCommandName}.js`)
+  ];
   client.messageCommands.delete(messageCommandName);
   const props = require(`../messageCommands/${messageCommandName}.js`);
   client.messageCommands.set(messageCommandName, props);
