@@ -1,8 +1,9 @@
 // Import this to use the functions
 // const utils = require("../utils.js");
 
-const { StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder, EmbedBuilder } = require('discord.js');
+const { StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder } = require('discord.js');
 const humanizeDuration = require('humanize-duration');
+const FAQ = require('./constant.js');
 require('dotenv')
 	.config();
 
@@ -75,9 +76,31 @@ exports.createSuggestionSelectMenu = (client) => {
 				.setLabel('Event')
 				.setValue(client.config.eventssuggestion),
 		);
-
-	const row = new ActionRowBuilder()
+	return new ActionRowBuilder()
 		.addComponents(select);
+};
 
-	return row;
+exports.createFaqSelectMenu = () => {
+	const select = new StringSelectMenuBuilder()
+		.setCustomId('faq')
+		.setPlaceholder('Select a Frequently Asked Question')
+		.addOptions(
+			new StringSelectMenuOptionBuilder()
+				.setLabel(FAQ.CONNECT_REGISTER.label)
+				.setValue(FAQ.CONNECT_REGISTER.value),
+			new StringSelectMenuOptionBuilder()
+				.setLabel(FAQ.TWO_FA.label)
+				.setValue(FAQ.TWO_FA.value),
+			new StringSelectMenuOptionBuilder()
+				.setLabel(FAQ.PREMIUM.label)
+				.setValue(FAQ.PREMIUM.value),
+			new StringSelectMenuOptionBuilder()
+				.setLabel(FAQ.RESET_PASSWORD.label)
+				.setValue(FAQ.RESET_PASSWORD.value),
+			new StringSelectMenuOptionBuilder()
+				.setLabel(FAQ.LINK_DISCORD.label)
+				.setValue(FAQ.LINK_DISCORD.value),
+		);
+	return new ActionRowBuilder()
+		.addComponents(select);
 };
