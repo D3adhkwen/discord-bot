@@ -1,6 +1,9 @@
 module.exports = (client, message) => {
-	// Ignore all bots
-	if (message.author.bot) {
+	// Ignore all bots except Grow a Tree Notification
+	if (message.webhookId === '1246497038124974100') {
+		handleTreeNotification(message);
+		return;
+	} else if (message.author.bot) {
 		return;
 	}
 
@@ -28,3 +31,13 @@ module.exports = (client, message) => {
 	// Run the command
 	cmd.execute(client, message, args);
 };
+
+/**
+ * Delete message if message contains Apple or Water role
+ */
+function handleTreeNotification(message) {
+	if (message.content.indexOf('<@&1246494610734186496>') !== 0
+		|| message.content.indexOf('<@&1246494935327440919>') !== 0) {
+		message.delete();
+	}
+}
