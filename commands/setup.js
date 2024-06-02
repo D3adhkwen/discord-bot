@@ -1,4 +1,4 @@
-const { ActionRowBuilder, EmbedBuilder, SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require('discord.js');
+const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 const utils = require('../utils.js');
 
 module.exports = {
@@ -16,6 +16,8 @@ module.exports = {
 
 		if (interactionName === 'suggestion') {
 			setupSuggestion(client, interaction);
+		} else if (interactionName === 'faq') {
+			setupFaq(interaction);
 		} else {
 			return await interaction.reply({
 				content: 'Module does not exist.',
@@ -38,5 +40,16 @@ async function setupSuggestion(client, interaction) {
 	await interaction.channel.send({
 		embeds: [embed],
 		components: [utils.createSuggestionSelectMenu(client)],
+	});
+}
+
+async function setupFaq(interaction) {
+	const embed = new EmbedBuilder()
+		.setTitle('Frequently Asked Questions (FAQ)')
+		.setDescription('Get an answer for an FAQ from the menu below');
+
+	await interaction.channel.send({
+		embeds: [embed],
+		components: [utils.createFaqSelectMenu()],
 	});
 }

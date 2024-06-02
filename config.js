@@ -12,6 +12,7 @@ module.exports = {
 	eventssuggestion: '831196575744393257',
 	rpgsuggestion: '858370267852308500',
 	duelssuggestion: '723413348032446547',
+	kchscraftbot: '721060669788651610',
 	staffrole: [
 		'[Owner]',
 		'[Co-owner]',
